@@ -1,0 +1,13 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.13.3"
+  },
+  "scripts": {
+    "test": "lerna run test"
+  },
+  "dependencies": {
+    "@angular/cli": "7.3.9"
+  }
+}
