@@ -1,3 +1,0 @@
-directive @model(model: String) on OBJECT
-directive @modelStaticMethod(name: String) on FIELD_DEFINITION
-directive @modelMethod(name: String) on FIELD_DEFINITION

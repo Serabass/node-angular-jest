@@ -19,7 +19,3 @@ type Mutation {
     Product: Product
     Category: Category
 }
-
-type ProductMutation {
-    deleteAll: Int!
-}

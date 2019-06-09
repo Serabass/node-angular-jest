@@ -1,22 +1,37 @@
 import 'reflect-metadata';
 import {SchemaDirectiveVisitor} from 'graphql-tools';
-import {GraphQLField, GraphQLInterfaceType, GraphQLObjectType} from 'graphql';
+import {
+    defaultFieldResolver,
+    DirectiveLocation,
+    GraphQLDirective,
+    GraphQLInterfaceType,
+    GraphQLObjectType,
+} from 'graphql';
 import reflect from '../reflect';
 import * as path from 'path';
 
 export class ModelStaticMethodDirective extends SchemaDirectiveVisitor {
-    visitFieldDefinition(field: GraphQLField<any, any>, details: { objectType: GraphQLObjectType | GraphQLInterfaceType }): GraphQLField<any, any> | void | null {
+    static getDirectiveDeclaration(directiveName: any, schema: any) {
+        return new GraphQLDirective({
+            name: directiveName,
+            locations: [
+                DirectiveLocation.FIELD_DEFINITION,
+            ],
+            args: {
+            }
+        });
+    }
+
+    visitFieldDefinition(field: any, details: { objectType: GraphQLObjectType | GraphQLInterfaceType }) {
         let staticMethods = Reflect.getMetadata('graphql:staticMethods', reflect);
         let modelData = Reflect.getMetadata('graphql:model', reflect);
         let modelPath = modelData.args.model;
         let model = require(path.join(process.cwd(), 'lib', modelPath)).default;
         let name = field.name;
 
-        field.resolve = function () {
-            console.log(name);
-            return [{
-                id: 0,
-            }]
+        const { resolve = defaultFieldResolver } = field;
+        field.resolve = async function (...args: any[]) {
+            return model[name](...args);
         };
 
         if (!staticMethods) {

@@ -1,20 +1,10 @@
-import {typeDefs} from './gql/schema';
-import {ModelDirective} from './directives/model';
 import {ApolloServer} from 'apollo-server-express';
-import {ModelStaticMethodDirective} from './directives/model-static-method';
-
-const express = require('express');
-
-// Provide resolver functions for your schema fields
-const resolvers = {};
+import {schema} from './gql/schema';
+import express from 'express';
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    schemaDirectives: {
-        model: ModelDirective,
-        modelStaticMethod: ModelStaticMethodDirective,
-    }});
+    schema
+});
 
 const app = express();
 server.applyMiddleware({
