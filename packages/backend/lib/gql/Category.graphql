@@ -1,0 +1,13 @@
+# import Directives from "directives.graphql"
+
+directive @model(model: String) on OBJECT
+
+type Category @model(model: "./models/Category") {
+    # Category(page: Int, perPage: Int): [Product!]! @modelStaticMethod
+    byId(id: Int!): Product @modelStaticMethod
+    paginate(page: Int, perPage: Int): [Product] @modelStaticMethod
+
+    id: Int!
+    title: String
+    price: Float
+}

@@ -1,0 +1,25 @@
+# import Product from "Product.graphql"
+# import Category from "Category.graphql"
+
+directive @model(model: String) on OBJECT
+directive @modelStaticMethod(name: String) on FIELD_DEFINITION
+directive @modelMethod(name: String) on FIELD_DEFINITION
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    Product: Product
+    Category: Category
+}
+
+type Mutation {
+    Product: Product
+    Category: Category
+}
+
+type ProductMutation {
+    deleteAll: Int!
+}
